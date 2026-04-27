@@ -36,6 +36,7 @@ Examples:
 
 ## Checklist
 
+- [ ] My branch follows the `<type>/<short-description>` naming format (e.g. `feat/add-fish-shell`)
 - [ ] All commit messages follow the `#<number> <type>: <description>` format
 - [ ] An issue exists for this change (link it below under Related issues)
 - [ ] I have tested this change locally

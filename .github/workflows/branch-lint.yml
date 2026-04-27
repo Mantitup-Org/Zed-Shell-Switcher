@@ -1,0 +1,68 @@
+name: Branch Lint
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint-branch:
+    name: Validate branch name
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check branch name
+        run: |
+          echo ""
+          echo "=========================================="
+          echo "   Branch Name Linter                     "
+          echo "=========================================="
+          echo ""
+          echo " Required format:"
+          echo "   <type>/<short-description>"
+          echo ""
+          echo " Valid types:"
+          echo "   feat     - new shell entry or feature"
+          echo "   fix      - bug fix"
+          echo "   docs     - documentation only"
+          echo "   ci       - CI or workflow changes"
+          echo "   chore    - maintenance or cleanup"
+          echo "   refactor - restructure, no behaviour change"
+          echo "   test     - test additions or updates"
+          echo "   style    - formatting, whitespace"
+          echo "   perf     - performance improvement"
+          echo "   revert   - reverting a previous commit"
+          echo ""
+          echo " Examples:"
+          echo "   feat/add-fish-shell"
+          echo "   fix/keymap-not-installing"
+          echo "   docs/update-manual-install-table"
+          echo "   ci/add-commit-lint-workflow"
+          echo ""
+          echo "------------------------------------------"
+
+          BRANCH="${{ github.head_ref }}"
+          PATTERN='^(feat|fix|docs|ci|chore|refactor|test|style|perf|revert)/.+$'
+
+          echo " Branch: $BRANCH"
+          echo "------------------------------------------"
+
+          if echo "$BRANCH" | grep -qP "$PATTERN"; then
+            echo ""
+            echo "[OK] Branch name is valid."
+            echo ""
+          else
+            echo ""
+            echo "[FAIL] Branch name \"$BRANCH\" does not follow the required format."
+            echo ""
+            echo "       Rename your branch before opening a pull request:"
+            echo "       git branch -m $BRANCH <type>/<short-description>"
+            echo ""
+            echo "       Example:"
+            echo "       git branch -m $BRANCH feat/add-fish-shell"
+            echo ""
+            echo "       Then force push your renamed branch:"
+            echo "       git push origin --delete $BRANCH"
+            echo "       git push origin <type>/<short-description>"
+            echo ""
+            exit 1
+          fi
