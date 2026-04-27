@@ -1,7 +1,7 @@
 #!/bin/bash
 # =====================================================
 #  Zed Shell Switcher - Mac / Linux Uninstaller
-#  https://github.com/YOUR_USERNAME/zed-shell-switcher
+#  https://github.com/Mantitup-Org/Zed-Shell-Switcher
 # =====================================================
 
 if [[ "$OSTYPE" == "darwin"* ]]; then

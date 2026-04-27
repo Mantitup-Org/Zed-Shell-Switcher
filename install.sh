@@ -1,10 +1,10 @@
 #!/bin/bash
 # =====================================================
 #  Zed Shell Switcher - Mac / Linux Installer
-#  https://github.com/YOUR_USERNAME/zed-shell-switcher
+#  https://github.com/Mantitup-Org/Zed-Shell-Switcher
 # =====================================================
 
-REPO_BASE="https://raw.githubusercontent.com/YOUR_USERNAME/zed-shell-switcher/main"
+REPO_BASE="https://raw.githubusercontent.com/Mantitup-Org/Zed-Shell-Switcher/main"
 
 # Detect OS config path
 if [[ "$OSTYPE" == "darwin"* ]]; then

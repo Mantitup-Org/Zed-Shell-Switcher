@@ -1,6 +1,6 @@
 [
   {
-    "label": "🐚 Shell → Git Bash",
+    "label": "Shell: Git Bash",
     "command": "bash",
     "args": ["--login", "-i"],
     "shell": {
@@ -14,7 +14,7 @@
     "reveal": "always"
   },
   {
-    "label": "💙 Shell → PowerShell",
+    "label": "Shell: PowerShell",
     "command": "pwsh",
     "args": ["-NoLogo"],
     "shell": {
@@ -25,7 +25,7 @@
     "reveal": "always"
   },
   {
-    "label": "⬛ Shell → CMD",
+    "label": "Shell: CMD",
     "command": "cmd",
     "args": [],
     "shell": {
@@ -36,7 +36,7 @@
     "reveal": "always"
   },
   {
-    "label": "🐧 Shell → WSL (Ubuntu)",
+    "label": "Shell: WSL (Ubuntu)",
     "command": "wsl",
     "args": [],
     "shell": {
@@ -47,7 +47,7 @@
     "reveal": "always"
   },
   {
-    "label": "🍎 Shell → Zsh (Mac)",
+    "label": "Shell: Zsh (Mac)",
     "command": "zsh",
     "args": ["--login"],
     "shell": {
@@ -61,7 +61,7 @@
     "reveal": "always"
   },
   {
-    "label": "🐚 Shell → Bash (Mac/Linux)",
+    "label": "Shell: Bash (Mac/Linux)",
     "command": "bash",
     "args": ["--login"],
     "shell": {

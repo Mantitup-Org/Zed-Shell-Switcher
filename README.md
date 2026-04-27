@@ -1,95 +1,137 @@
+<div align="center">
+
 # Zed Shell Switcher
 
-> Pick your shell on the fly inside [Zed editor](https://zed.dev) — without changing your default terminal.
+**Pick your shell on the fly inside Zed editor — without touching your default terminal.**
 
-![Zed Shell Switcher Demo](https://raw.githubusercontent.com/YOUR_USERNAME/zed-shell-switcher/main/assets/demo.gif)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Mac%20%7C%20Linux-lightgrey.svg)]()
+[![Editor](https://img.shields.io/badge/Editor-Zed-blueviolet.svg)](https://zed.dev)
+[![Repo](https://img.shields.io/badge/GitHub-Mantitup--Org%2FZed--Shell--Switcher-black?logo=github)](https://github.com/Mantitup-Org/Zed-Shell-Switcher)
+
+</div>
 
 ---
 
-## What it does
+## The Problem
 
-Press **Ctrl+Shift+R** in any Zed project and choose:
+VS Code has a built-in shell picker — you can switch between Bash, PowerShell, Git Bash, WSL, and more with a single click from the terminal toolbar. It is a small but genuinely useful feature that many developers rely on daily.
 
-| Option | Shell |
-|---|---|
-| 🐚 Shell → Git Bash | Git Bash (Windows) |
-| 💙 Shell → PowerShell | PowerShell (Windows) |
-| ⬛ Shell → CMD | Command Prompt (Windows) |
-| 🐧 Shell → WSL (Ubuntu) | WSL (Windows) |
-| 🍎 Shell → Zsh | Zsh (Mac) |
-| 🐚 Shell → Bash | Bash (Mac/Linux) |
+**Zed does not have this.** Zed is a fast, modern editor, but its terminal is tied to a single shell configured globally in settings. If you want to open a different shell, your only option today is to change your default shell setting, restart the terminal, do your work, and change it back. For developers who regularly jump between environments — say, PowerShell for a .NET project and WSL for a Linux build — this friction adds up fast.
 
-Your **default terminal is never changed** — this only adds on-demand choice.
+This is not a criticism of Zed. It is a young, actively developed editor and this is a known, minor limitation. But until the Zed team ships a native solution, **Zed Shell Switcher fills that gap** — giving you an on-demand shell picker that feels native, requires no extension API, and does not touch your default configuration.
+
+---
+
+## Overview
+
+Zed Shell Switcher adds an on-demand shell picker to [Zed editor](https://zed.dev) via the built-in task system.  
+Press **Ctrl+Shift+R**, choose a shell, and it opens in a new terminal tab — your default terminal is never changed.
+
+---
+
+## Supported Shells
+
+| Shell            | Platform          |
+|------------------|-------------------|
+| Git Bash         | Windows           |
+| PowerShell       | Windows           |
+| CMD              | Windows           |
+| WSL (Ubuntu)     | Windows           |
+| Zsh              | macOS             |
+| Bash             | macOS / Linux     |
 
 ---
 
 ## Install
 
-### Windows (PowerShell)
+### Windows — PowerShell
 
 ```powershell
-irm https://raw.githubusercontent.com/YOUR_USERNAME/zed-shell-switcher/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/Mantitup-Org/Zed-Shell-Switcher/main/install.ps1 | iex
 ```
 
-### Mac / Linux (Bash)
+### macOS / Linux — Bash
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/zed-shell-switcher/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Mantitup-Org/Zed-Shell-Switcher/main/install.sh | bash
 ```
 
 ---
 
-## How to use
+## How to Use
 
 1. Open **any** project in Zed
-2. Press **Ctrl+Shift+R**
-3. Type the shell name or use arrow keys
-4. Press **Enter** — done!
+2. Press **Ctrl+Shift+R** to open the task picker
+3. Type a shell name or navigate with arrow keys
+4. Press **Enter**
 
-The selected shell opens in a **new terminal tab** alongside your default shell.
+The selected shell opens in a **new terminal tab** alongside your existing shell.
 
 ---
 
 ## Uninstall
 
-### Windows
+### Windows — PowerShell
 
 ```powershell
-irm https://raw.githubusercontent.com/YOUR_USERNAME/zed-shell-switcher/main/uninstall.ps1 | iex
+irm https://raw.githubusercontent.com/Mantitup-Org/Zed-Shell-Switcher/main/uninstall.ps1 | iex
 ```
 
-### Mac / Linux
+### macOS / Linux — Bash
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/zed-shell-switcher/main/uninstall.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Mantitup-Org/Zed-Shell-Switcher/main/uninstall.sh | bash
 ```
 
 ---
 
-## Manual install (no scripts)
+## Manual Install (No Scripts)
 
-1. Download [`tasks.json`](./tasks.json)
-2. Copy it to:
-   - **Windows:** `%APPDATA%\Zed\tasks.json`
-   - **Mac:** `~/Library/Application Support/Zed/tasks.json`
-   - **Linux:** `~/.config/zed/tasks.json`
-3. Press **Ctrl+Shift+R** in Zed — done!
+1. Download [`tasks.json`](./tasks.json) from this repository
+2. Copy it to the correct location for your OS:
+
+   | OS      | Path                                          |
+   |---------|-----------------------------------------------|
+   | Windows | `%APPDATA%\Zed\tasks.json`                    |
+   | macOS   | `~/Library/Application Support/Zed/tasks.json`|
+   | Linux   | `~/.config/zed/tasks.json`                    |
+
+3. Open Zed, press **Ctrl+Shift+R** — done.
+
+> **Note:** If you already have a `tasks.json`, the installer will back it up as `tasks.json.bak` before overwriting.
 
 ---
 
-## Why not a Zed extension?
+## Why Not a Zed Extension?
 
-The Zed extension API (v0.7.0) does not yet support injecting tasks into the task picker.
-This installer is the most reliable approach until that API is available.
+The Zed extension API does not yet support injecting entries into the task picker.  
+Using `tasks.json` is the most reliable and maintainable approach until that API becomes available.
 
 ---
 
 ## Contributing
 
-PRs welcome! To add a new shell, edit `tasks.json` and open a pull request.
+Contributions are welcome!
+
+- To add a new shell entry, edit [`tasks.json`](./tasks.json) and open a pull request.
+- To report a bug or request a feature, open an [issue](https://github.com/Mantitup-Org/Zed-Shell-Switcher/issues).
+
+```bash
+git clone https://github.com/Mantitup-Org/Zed-Shell-Switcher.git
+cd Zed-Shell-Switcher
+```
 
 ---
 
 ## License
 
-MIT
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+<div align="center">
+
+Built by **Ankan Dalui** ❤️ **Team Mantitup**
+
+</div>
