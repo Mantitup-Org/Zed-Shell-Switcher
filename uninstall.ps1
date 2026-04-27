@@ -3,9 +3,11 @@
 #  https://github.com/Mantitup-Org/Zed-Shell-Switcher
 # =====================================================
 
-$ZedDir = "$env:APPDATA\Zed"
-$Target = "$ZedDir\tasks.json"
-$Backup = "$ZedDir\tasks.json.bak"
+$ZedDir       = "$env:APPDATA\Zed"
+$TasksTarget  = "$ZedDir\tasks.json"
+$TasksBackup  = "$ZedDir\tasks.json.bak"
+$KeymapTarget = "$ZedDir\keymap.json"
+$KeymapBackup = "$ZedDir\keymap.json.bak"
 
 Write-Host ""
 Write-Host "=========================================="
@@ -13,18 +15,34 @@ Write-Host "   Zed Shell Switcher  -  Uninstaller     "
 Write-Host "=========================================="
 Write-Host ""
 
-if (Test-Path $Backup)
+# Restore or remove tasks.json
+if (Test-Path $TasksBackup)
 {
-    Copy-Item $Backup $Target -Force
-    Remove-Item $Backup -Force
+    Copy-Item $TasksBackup $TasksTarget -Force
+    Remove-Item $TasksBackup -Force
     Write-Host "[OK] Restored your previous tasks.json"
-} elseif (Test-Path $Target)
+} elseif (Test-Path $TasksTarget)
 {
-    Remove-Item $Target -Force
+    Remove-Item $TasksTarget -Force
     Write-Host "[OK] tasks.json removed"
 } else
 {
-    Write-Host "[INFO] Nothing to uninstall."
+    Write-Host "[INFO] No tasks.json found, skipping."
+}
+
+# Restore or remove keymap.json
+if (Test-Path $KeymapBackup)
+{
+    Copy-Item $KeymapBackup $KeymapTarget -Force
+    Remove-Item $KeymapBackup -Force
+    Write-Host "[OK] Restored your previous keymap.json"
+} elseif (Test-Path $KeymapTarget)
+{
+    Remove-Item $KeymapTarget -Force
+    Write-Host "[OK] keymap.json removed"
+} else
+{
+    Write-Host "[INFO] No keymap.json found, skipping."
 }
 
 Write-Host ""

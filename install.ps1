@@ -5,10 +5,12 @@
 
 param([string]$Branch = "main")
 
-$RepoBase = "https://raw.githubusercontent.com/Mantitup-Org/Zed-Shell-Switcher/$Branch"
-$ZedDir   = "$env:APPDATA\Zed"
-$Target   = "$ZedDir\tasks.json"
-$Backup   = "$ZedDir\tasks.json.bak"
+$RepoBase    = "https://raw.githubusercontent.com/Mantitup-Org/Zed-Shell-Switcher/$Branch"
+$ZedDir      = "$env:APPDATA\Zed"
+$TasksTarget = "$ZedDir\tasks.json"
+$TasksBackup = "$ZedDir\tasks.json.bak"
+$KeymapTarget = "$ZedDir\keymap.json"
+$KeymapBackup = "$ZedDir\keymap.json.bak"
 
 Write-Host ""
 Write-Host "=========================================="
@@ -26,17 +28,28 @@ if (-Not (Test-Path $ZedDir))
 Write-Host "[OK] Zed found: $ZedDir"
 
 # 2. Backup existing tasks.json
-if (Test-Path $Target)
+if (Test-Path $TasksTarget)
 {
-    Copy-Item $Target $Backup -Force
+    Copy-Item $TasksTarget $TasksBackup -Force
     Write-Host "[OK] Backed up existing tasks.json -> tasks.json.bak"
 }
 
-# 3. Download and install
+# 3. Backup existing keymap.json
+if (Test-Path $KeymapTarget)
+{
+    Copy-Item $KeymapTarget $KeymapBackup -Force
+    Write-Host "[OK] Backed up existing keymap.json -> keymap.json.bak"
+}
+
+# 4. Download and install tasks.json and keymap.json
 try
 {
     Write-Host "[..] Downloading tasks.json ..."
-    Invoke-WebRequest -Uri "$RepoBase/tasks.json" -OutFile $Target -UseBasicParsing
+    Invoke-WebRequest -Uri "$RepoBase/tasks.json" -OutFile $TasksTarget -UseBasicParsing
+
+    Write-Host "[..] Downloading keymap.json ..."
+    Invoke-WebRequest -Uri "$RepoBase/keymap.json" -OutFile $KeymapTarget -UseBasicParsing
+
     Write-Host ""
     Write-Host "=========================================="
     Write-Host "   Shell Switcher Installed!               "

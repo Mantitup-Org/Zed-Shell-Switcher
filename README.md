@@ -62,11 +62,15 @@ curl -fsSL https://raw.githubusercontent.com/Mantitup-Org/Zed-Shell-Switcher/mai
 ## How to Use
 
 1. Open **any** project in Zed
-2. Press **Ctrl+Shift+R** to open the task picker
+2. Press **Ctrl+Shift+R** to open the shell picker
 3. Type a shell name or navigate with arrow keys
 4. Press **Enter**
 
 The selected shell opens in a **new terminal tab** alongside your existing shell.
+
+> **Why does it re-run instead of showing the picker?**  
+> Zed's default `Ctrl+Shift+R` binding maps to `task::Rerun`, which silently re-runs the last used task.  
+> The installer automatically writes a `keymap.json` that rebinds it to `task::Spawn` — which **always** opens the picker. This is handled for you during install.
 
 ---
 
@@ -88,25 +92,28 @@ curl -fsSL https://raw.githubusercontent.com/Mantitup-Org/Zed-Shell-Switcher/mai
 
 ## Manual Install (No Scripts)
 
-1. Download [`tasks.json`](./tasks.json) from this repository
-2. Copy it to the correct location for your OS:
+1. Download [`tasks.json`](./tasks.json) and [`keymap.json`](./keymap.json) from this repository
+2. Copy each file to the correct location for your OS:
 
-   | OS      | Path                                          |
-   |---------|-----------------------------------------------|
-   | Windows | `%APPDATA%\Zed\tasks.json`                    |
-   | macOS   | `~/Library/Application Support/Zed/tasks.json`|
-   | Linux   | `~/.config/zed/tasks.json`                    |
+   | File           | OS      | Path                                                    |
+   |----------------|---------|---------------------------------------------------------|
+   | `tasks.json`   | Windows | `%APPDATA%\Zed\tasks.json`                              |
+   | `tasks.json`   | macOS   | `~/Library/Application Support/Zed/tasks.json`          |
+   | `tasks.json`   | Linux   | `~/.config/zed/tasks.json`                              |
+   | `keymap.json`  | Windows | `%APPDATA%\Zed\keymap.json`                             |
+   | `keymap.json`  | macOS   | `~/Library/Application Support/Zed/keymap.json`         |
+   | `keymap.json`  | Linux   | `~/.config/zed/keymap.json`                             |
 
 3. Open Zed, press **Ctrl+Shift+R** — done.
 
-> **Note:** If you already have a `tasks.json`, the installer will back it up as `tasks.json.bak` before overwriting.
+> **Note:** If you already have a `tasks.json` or `keymap.json`, the installer backs each one up as `.bak` before overwriting. Uninstalling restores them automatically.
 
 ---
 
 ## Why Not a Zed Extension?
 
-The Zed extension API does not yet support injecting entries into the task picker.  
-Using `tasks.json` is the most reliable and maintainable approach until that API becomes available.
+The Zed extension API does not yet support injecting entries into the task picker or modifying keybindings programmatically.  
+Using `tasks.json` + `keymap.json` is the most reliable and maintainable approach until that API becomes available.
 
 ---
 
