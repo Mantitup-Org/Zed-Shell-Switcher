@@ -8,6 +8,8 @@
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Mac%20%7C%20Linux-lightgrey.svg)]()
 [![Editor](https://img.shields.io/badge/Editor-Zed-blueviolet.svg)](https://zed.dev)
 [![Repo](https://img.shields.io/badge/GitHub-Mantitup--Org%2FZed--Shell--Switcher-black?logo=github)](https://github.com/Mantitup-Org/Zed-Shell-Switcher)
+[![Latest Release](https://img.shields.io/github/v/release/Mantitup-Org/Zed-Shell-Switcher?label=version&color=brightgreen)](https://github.com/Mantitup-Org/Zed-Shell-Switcher/releases/latest)
+[![Total Installs](https://img.shields.io/github/downloads/Mantitup-Org/Zed-Shell-Switcher/total?label=total%20installs&color=blue)](https://github.com/Mantitup-Org/Zed-Shell-Switcher/releases)
 
 </div>
 

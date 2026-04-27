@@ -1,0 +1,101 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Publish release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Create release archive
+        run: |
+          mkdir -p dist
+          cp tasks.json dist/tasks.json
+          cp keymap.json dist/keymap.json
+          cp install.ps1 dist/install.ps1
+          cp install.sh dist/install.sh
+          cp uninstall.ps1 dist/uninstall.ps1
+          cp uninstall.sh dist/uninstall.sh
+          zip -j dist/zed-shell-switcher-${{ steps.version.outputs.VERSION }}.zip \
+            dist/tasks.json \
+            dist/keymap.json \
+            dist/install.ps1 \
+            dist/install.sh \
+            dist/uninstall.ps1 \
+            dist/uninstall.sh
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Zed Shell Switcher ${{ steps.version.outputs.VERSION }}
+          tag_name: ${{ steps.version.outputs.VERSION }}
+          body: |
+            ## Zed Shell Switcher ${{ steps.version.outputs.VERSION }}
+
+            Pick your shell on the fly inside [Zed editor](https://zed.dev) — without touching your default terminal.
+
+            ---
+
+            ### Install
+
+            **Windows — PowerShell**
+            ```powershell
+            irm https://raw.githubusercontent.com/Mantitup-Org/Zed-Shell-Switcher/main/install.ps1 | iex
+            ```
+
+            **macOS / Linux — Bash**
+            ```bash
+            curl -fsSL https://raw.githubusercontent.com/Mantitup-Org/Zed-Shell-Switcher/main/install.sh | bash
+            ```
+
+            ---
+
+            ### What is included in this release
+
+            | File | Description |
+            |------|-------------|
+            | `tasks.json` | Shell picker task definitions for Zed |
+            | `keymap.json` | Keybinding that ensures Ctrl+Shift+R always opens the picker |
+            | `install.ps1` | Windows one-line installer |
+            | `install.sh` | macOS / Linux one-line installer |
+            | `uninstall.ps1` | Windows one-line uninstaller |
+            | `uninstall.sh` | macOS / Linux one-line uninstaller |
+            | `zed-shell-switcher-${{ steps.version.outputs.VERSION }}.zip` | All of the above in a single archive |
+
+            ---
+
+            ### How to use after installing
+
+            1. Open any project in Zed
+            2. Press **Ctrl+Shift+R**
+            3. Pick your shell and press **Enter**
+
+            Your default terminal is never changed.
+
+            ---
+
+            Built by **Ankan Dalui** ❤️ **Team Mantitup**
+          files: |
+            dist/tasks.json
+            dist/keymap.json
+            dist/install.ps1
+            dist/install.sh
+            dist/uninstall.ps1
+            dist/uninstall.sh
+            dist/zed-shell-switcher-${{ steps.version.outputs.VERSION }}.zip
+          draft: false
+          prerelease: false
