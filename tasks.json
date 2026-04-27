@@ -1,0 +1,77 @@
+[
+  {
+    "label": "🐚 Shell → Git Bash",
+    "command": "bash",
+    "args": ["--login", "-i"],
+    "shell": {
+      "with_arguments": {
+        "program": "C:\\Program Files\\Git\\bin\\bash.exe",
+        "args": []
+      }
+    },
+    "use_new_terminal": true,
+    "allow_concurrent_runs": true,
+    "reveal": "always"
+  },
+  {
+    "label": "💙 Shell → PowerShell",
+    "command": "pwsh",
+    "args": ["-NoLogo"],
+    "shell": {
+      "program": "pwsh.exe"
+    },
+    "use_new_terminal": true,
+    "allow_concurrent_runs": true,
+    "reveal": "always"
+  },
+  {
+    "label": "⬛ Shell → CMD",
+    "command": "cmd",
+    "args": [],
+    "shell": {
+      "program": "cmd.exe"
+    },
+    "use_new_terminal": true,
+    "allow_concurrent_runs": true,
+    "reveal": "always"
+  },
+  {
+    "label": "🐧 Shell → WSL (Ubuntu)",
+    "command": "wsl",
+    "args": [],
+    "shell": {
+      "program": "wsl.exe"
+    },
+    "use_new_terminal": true,
+    "allow_concurrent_runs": true,
+    "reveal": "always"
+  },
+  {
+    "label": "🍎 Shell → Zsh (Mac)",
+    "command": "zsh",
+    "args": ["--login"],
+    "shell": {
+      "with_arguments": {
+        "program": "/bin/zsh",
+        "args": ["--login"]
+      }
+    },
+    "use_new_terminal": true,
+    "allow_concurrent_runs": true,
+    "reveal": "always"
+  },
+  {
+    "label": "🐚 Shell → Bash (Mac/Linux)",
+    "command": "bash",
+    "args": ["--login"],
+    "shell": {
+      "with_arguments": {
+        "program": "/bin/bash",
+        "args": ["--login"]
+      }
+    },
+    "use_new_terminal": true,
+    "allow_concurrent_runs": true,
+    "reveal": "always"
+  }
+]
