@@ -1,0 +1,106 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate-json:
+    name: Validate JSON files
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate tasks.json
+        run: |
+          echo "[..] Validating tasks.json ..."
+          python3 -c "
+          import json, sys
+          with open('tasks.json') as f:
+              data = json.load(f)
+          required_keys = {'label', 'command', 'use_new_terminal', 'allow_concurrent_runs', 'reveal'}
+          for i, task in enumerate(data):
+              missing = required_keys - task.keys()
+              if missing:
+                  print(f'[ERROR] Task {i} missing keys: {missing}')
+                  sys.exit(1)
+          print(f'[OK] tasks.json is valid ({len(data)} entries)')
+          "
+
+      - name: Validate keymap.json
+        run: |
+          echo "[..] Validating keymap.json ..."
+          python3 -c "
+          import json, sys
+          with open('keymap.json') as f:
+              data = json.load(f)
+          found = any('ctrl-shift-r' in entry.get('bindings', {}) for entry in data)
+          if not found:
+              print('[ERROR] keymap.json is missing the ctrl-shift-r -> task::Spawn binding')
+              sys.exit(1)
+          print('[OK] keymap.json is valid')
+          "
+
+  lint-shell-scripts:
+    name: Lint shell scripts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install shellcheck
+        run: sudo apt-get install -y shellcheck
+
+      - name: Lint install.sh
+        run: |
+          echo "[..] Linting install.sh ..."
+          shellcheck install.sh
+          echo "[OK] install.sh passed"
+
+      - name: Lint uninstall.sh
+        run: |
+          echo "[..] Linting uninstall.sh ..."
+          shellcheck uninstall.sh
+          echo "[OK] uninstall.sh passed"
+
+  lint-powershell:
+    name: Lint PowerShell scripts
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Lint install.ps1
+        shell: pwsh
+        run: |
+          Write-Host "[..] Linting install.ps1 ..."
+          $errors = $null
+          $null = [System.Management.Automation.Language.Parser]::ParseFile(
+              "${{ github.workspace }}\install.ps1",
+              [ref]$null,
+              [ref]$errors
+          )
+          if ($errors.Count -gt 0) {
+              $errors | ForEach-Object { Write-Host "[ERROR] $_" }
+              exit 1
+          }
+          Write-Host "[OK] install.ps1 passed"
+
+      - name: Lint uninstall.ps1
+        shell: pwsh
+        run: |
+          Write-Host "[..] Linting uninstall.ps1 ..."
+          $errors = $null
+          $null = [System.Management.Automation.Language.Parser]::ParseFile(
+              "${{ github.workspace }}\uninstall.ps1",
+              [ref]$null,
+              [ref]$errors
+          )
+          if ($errors.Count -gt 0) {
+              $errors | ForEach-Object { Write-Host "[ERROR] $_" }
+              exit 1
+          }
+          Write-Host "[OK] uninstall.ps1 passed"
