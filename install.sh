@@ -19,9 +19,9 @@ KEYMAP_TARGET="$ZED_DIR/keymap.json"
 KEYMAP_BACKUP="$ZED_DIR/keymap.json.bak"
 
 echo ""
-echo "========================================="
-echo "   Zed Shell Switcher  -  Installer      "
-echo "========================================="
+echo "======================================================="
+echo "   Zed Shell Switcher  -  Installer - By Mantitup     "
+echo "======================================================="
 echo ""
 
 # 1. Check Zed exists

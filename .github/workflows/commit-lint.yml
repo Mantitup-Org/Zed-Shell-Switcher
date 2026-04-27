@@ -1,0 +1,84 @@
+name: Commit Lint
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint-commits:
+    name: Validate commit messages
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate commit messages
+        run: |
+          echo ""
+          echo "=========================================="
+          echo "   Commit Message Linter                  "
+          echo "=========================================="
+          echo ""
+          echo " Required format:"
+          echo "   #<number> <type>: <description>"
+          echo ""
+          echo " Valid types:"
+          echo "   feat     - a new feature or shell entry"
+          echo "   fix      - a bug fix"
+          echo "   docs     - documentation changes only"
+          echo "   ci       - CI or workflow changes"
+          echo "   chore    - maintenance, cleanup, config"
+          echo "   refactor - code restructure, no behaviour change"
+          echo "   test     - adding or updating tests"
+          echo "   style    - formatting, whitespace, no logic change"
+          echo "   perf     - performance improvement"
+          echo "   revert   - reverting a previous commit"
+          echo ""
+          echo " Examples:"
+          echo "   #1 feat: add Fish shell entry"
+          echo "   #12 fix: always show picker on Ctrl+Shift+R"
+          echo "   #7 docs: add troubleshooting section to README"
+          echo ""
+          echo "------------------------------------------"
+
+          PATTERN='^#[0-9]+ (feat|fix|docs|ci|chore|refactor|test|style|perf|revert)(\(.+\))?: .{1,}$'
+
+          COMMITS=$(git log origin/main..HEAD --format="%s")
+
+          if [ -z "$COMMITS" ]; then
+            echo "[INFO] No commits to validate."
+            exit 0
+          fi
+
+          FAILED=0
+
+          while IFS= read -r MSG; do
+            if [ -z "$MSG" ]; then
+              continue
+            fi
+
+            if echo "$MSG" | grep -qP "$PATTERN"; then
+              echo "[OK]   $MSG"
+            else
+              echo "[FAIL] $MSG"
+              echo "       Does not match: #<number> <type>: <description>"
+              FAILED=1
+            fi
+          done <<< "$COMMITS"
+
+          echo "------------------------------------------"
+
+          if [ "$FAILED" -eq 1 ]; then
+            echo ""
+            echo "[ERROR] One or more commit messages failed validation."
+            echo "        Please fix your commit messages and push again."
+            echo ""
+            exit 1
+          fi
+
+          echo ""
+          echo "[OK] All commit messages are valid."
+          echo ""
